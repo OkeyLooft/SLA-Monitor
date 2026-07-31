@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+test.py
 
 # Виртуальные окружения (venv, env и т.д.)
 venv/
