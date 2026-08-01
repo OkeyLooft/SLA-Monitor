@@ -52,13 +52,13 @@ def create_ticket():
 
     return ticket_dict
 
-def add_to_json():
+def add_to_json(tic_dict):
     data = []
     if DB_PATH.exists() and DB_PATH.stat().st_size > 0:
         with open(DB_PATH, "r", encoding="utf-8") as f:
             data=json.load(f)
 
-    data.append(ticket_dict)
+    data.append(tic_dict)
 
     with open(DB_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)

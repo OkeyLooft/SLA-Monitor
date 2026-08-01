@@ -18,8 +18,8 @@ def main():
             print(50 * '-')
             print("Выберите значение в диапазоне 1-7")
         elif user_input == 1:
-            handlers.create_ticket()
-            handlers.add_to_json()
+            tic_dict = handlers.create_ticket()
+            handlers.add_to_json(tic_dict)
 
 
 
