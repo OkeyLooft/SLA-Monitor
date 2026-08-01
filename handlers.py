@@ -1,5 +1,10 @@
 from datetime import datetime
 import json
+from pathlib import Path
+import uuid
+
+BASE_DIR = Path(__file__).resolve().parent
+DB_PATH = BASE_DIR / "database.json"
 
 def create_ticket():
     yes_or_no = ""
@@ -13,23 +18,29 @@ def create_ticket():
             except ValueError:
                 print("Проверьте что вы ввели числовое значение")
 
+# Пытаюсь реализовать списки и словари, что бы при выводе выводилось читаемое чтиво для понятности, все ли верно ввбили в тикет
         print(50 * '-')
+
+        with open(DB_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        number = 0
+        for d in data:
+            if 'id' in d:
+                number += 1
+                    
         datetime_now = datetime.now()
-        ticket_dict = [{
-                "id": 1,
+        ticket_dict = {
+                "id": number,
                 "name": ticket_name,
                 "description": discription_ticket,
                 "created_at": f"{datetime_now.year}-{datetime_now.month}-{datetime_now.day} {datetime_now.hour}:{datetime_now.minute}:{datetime_now.second}",
                 "sla": time_sla,
                 "status": "OPEN"
-            }]
-        for keys in ticket_dict:
-            for key in keys:
-                print(key)
-        # for keys, values in dict(ticket_dict).items():
-        #     print(f"{keys}: {values}")
-        # print(50 * '-')
+            }
+        for keys, values in ticket_dict.items():
+            print(f"{keys}: {values}")
 
+# Запрос ОС по тикету
         while True:
             yes_or_no = input("Все верно ?(y/N) ").lower()
             if yes_or_no =="n":
@@ -38,22 +49,16 @@ def create_ticket():
                 break
             else:
                 print("Введите y/N")
-    
-    # ticket_dict = [
-    #     {
-    #     "id": 1,
-    #     "name": ticket_name,
-    #     "description": discription_ticket,
-    #     "created_at": f"{datetime_now.year}-{datetime_now.month}-{datetime_now.day} {datetime_now.hour}:{datetime_now.minute}:{datetime_now.second}",
-    #     "sla": time_sla,
-    #     "status": "OPEN"
-    # }
-    # ]
 
-    with open('database.json', 'a', encoding="utf-8") as f:
-        json.dump(ticket_dict, f, indent=4, ensure_ascii=False)
-        f.write('\n')
+    return ticket_dict
 
-    return
-create_ticket()
+def add_to_json():
+    data = []
+    if DB_PATH.exists() and DB_PATH.stat().st_size > 0:
+        with open(DB_PATH, "r", encoding="utf-8") as f:
+            data=json.load(f)
 
+    data.append(ticket_dict)
+
+    with open(DB_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)

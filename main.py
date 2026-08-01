@@ -19,15 +19,8 @@ def main():
             print("Выберите значение в диапазоне 1-7")
         elif user_input == 1:
             handlers.create_ticket()
-            ticket_dict = {
-                "id": 1,
-                "name": ticket_name,
-                "description": datetime_now.year, datetime_now.month, datetime_now.day, datetime_now.hour, datetime_now.minute, datetime_now.second,
-                "created_at": "2026-07-31 10:30",
-                "sla": time_sla,
-                "status": "OPEN"
-            }
-            print(ticket_dict)
+            handlers.add_to_json()
+
 
 
 if __name__ == "__main__":
