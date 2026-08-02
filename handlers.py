@@ -23,11 +23,19 @@ def create_ticket():
 
         with open(DB_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
-        number = 0
+
+        id_ = []
         for d in data:
-            if 'id' in d:
-                number += 1
-                    
+            id_num = d.get('id')
+            id_.append(id_num)
+        if id_ == []:
+            number = 0
+        else:
+            id_max = max(id_)
+            number = 0
+            number = id_max + 1
+
+
         datetime_now = datetime.now()
         ticket_dict = {
                 "id": number,
@@ -63,7 +71,7 @@ def add_to_json(tic_dict):
     with open(DB_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
 
-def show_ticket():
+def show_tickets():
     with open(DB_PATH, "r", encoding="utf-8") as f:
         data=json.load(f)
     
@@ -101,4 +109,38 @@ def find_ticket():
                 print(d)
 
 def change_status():
+    with open(DB_PATH, "r", encoding="utf-8") as f:
+        data=json.load(f)
+    for d in data:
+        print(d)
+    print(50 * '-')
+    id_input = int(input("Введите ID таска: "))
+    data_by_id = [item for item in data if item.get('id') == id_input]
+    while True:
+        print(data_by_id, "<-- Итоговый вид Таска")
+        print(50 * '-')    
+        print("1. OPEN \n2. IN_PROGRESS \n3. CLOSED \n4. EXPIRED \n5. EXIT")
+        change_input = input("Введите номер статуса на который вы хотите изменить таск: ")
+        if change_input == '5':
+            break
+        elif change_input == '1':
+            data_by_id[0]["status"] = 'OPEN'
+            with open(DB_PATH, 'w', encoding="utf-8") as file:
+                json.dump(data, file, indent=4)
+        elif change_input == '2':
+            data_by_id[0]["status"] = 'IN_PROGRESS'
+            with open(DB_PATH, 'w', encoding="utf-8") as file:
+                json.dump(data, file, indent=4)
+        elif change_input == '3':
+            data_by_id[0]["status"] = 'CLOSED'
+            with open(DB_PATH, 'w', encoding="utf-8") as file:
+                json.dump(data, file, indent=4)
+        elif change_input == '4':
+            data_by_id[0]["status"] = 'EXPIRED'
+            with open(DB_PATH, 'w', encoding="utf-8") as file:
+                json.dump(data, file, indent=4)
+        else:
+            print("Введите допустимый номер")
+
+def del_ticket():
     pass

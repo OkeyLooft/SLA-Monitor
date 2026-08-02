@@ -26,6 +26,8 @@ def main():
             pass
         elif user_input == 3:
             handlers.find_ticket()
+        elif user_input == 4:
+            handlers.change_status()
 
 
 if __name__ == "__main__":
