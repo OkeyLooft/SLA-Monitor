@@ -143,4 +143,31 @@ def change_status():
             print("Введите допустимый номер")
 
 def del_ticket():
-    pass
+    with open(DB_PATH, "r", encoding="utf-8") as f:
+        data=json.load(f)
+
+    while True: 
+        for d in data:
+            print(d)
+        print(50 * '-')
+        del_input = input("Выберите ID тикета который хотите удалить(Или введите Q): ").lower()
+        if del_input == "q":
+            break
+        del_input = int(del_input)
+        data_by_id = [item for item in data if item.get('id') == del_input]
+
+        print(data_by_id)
+        que_input = input("Вы уверены ?(y/N) ")
+        print(50 * '-')
+        if que_input == "y":
+            data = [item for item in data if item.get('id') != del_input]
+
+            with open(DB_PATH, 'w', encoding="utf-8") as file:
+                json.dump(data, file, indent=4, ensure_ascii=False)
+            
+        elif que_input == "n":
+            print(50 * '-')
+            for d in data:
+                print(d)
+            pass
+        

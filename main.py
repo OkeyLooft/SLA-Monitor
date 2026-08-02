@@ -28,6 +28,8 @@ def main():
             handlers.find_ticket()
         elif user_input == 4:
             handlers.change_status()
+        elif user_input == 5:
+            handlers.del_ticket()
 
 
 if __name__ == "__main__":
