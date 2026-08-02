@@ -1,3 +1,9 @@
+from datetime import datetime
+import json
+from pathlib import Path
+import uuid
+
+
 def print_header_SLA():
     print(50 * "=")
     print("SLA MONITOR")
@@ -13,3 +19,4 @@ def print_menu():
     print("5. Delete ticket")
     print("6. Check SLA")
     print("7. Exit")
+

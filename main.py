@@ -9,6 +9,8 @@ def main():
         print()
         try:
             user_input = int(input("Выберите подходящий вариант: "))
+        except UnboundLocalError:
+            print("Вы не ввели номера")
         except ValueError:
             print("Убедитесь, что ввели именно номер варианта")
 
@@ -20,7 +22,10 @@ def main():
         elif user_input == 1:
             tic_dict = handlers.create_ticket()
             handlers.add_to_json(tic_dict)
-
+        elif user_input == 2:
+            pass
+        elif user_input == 3:
+            handlers.find_ticket()
 
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@ from datetime import datetime
 import json
 from pathlib import Path
 import uuid
+import utils
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "database.json"
@@ -17,8 +18,7 @@ def create_ticket():
                 break
             except ValueError:
                 print("Проверьте что вы ввели числовое значение")
-
-# Пытаюсь реализовать списки и словари, что бы при выводе выводилось читаемое чтиво для понятности, все ли верно ввбили в тикет
+    # Пытаюсь реализовать списки и словари, что бы при выводе выводилось читаемое чтиво для понятности, все ли верно ввбили в тикет
         print(50 * '-')
 
         with open(DB_PATH, "r", encoding="utf-8") as f:
@@ -40,7 +40,7 @@ def create_ticket():
         for keys, values in ticket_dict.items():
             print(f"{keys}: {values}")
 
-# Запрос ОС по тикету
+    # Запрос ОС по тикету
         while True:
             yes_or_no = input("Все верно ?(y/N) ").lower()
             if yes_or_no =="n":
@@ -62,3 +62,43 @@ def add_to_json(tic_dict):
 
     with open(DB_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
+
+def show_ticket():
+    with open(DB_PATH, "r", encoding="utf-8") as f:
+        data=json.load(f)
+    
+    print("ID | NAME          | STATUS | HOURS LEFT")
+    print(50 * '-')
+    for d in data:
+        print(f"{d['id']:<3}|{d['name']:<15}|{d['status']:<8}|")
+        print(50 * '-')
+
+def find_ticket():
+    with open(DB_PATH, "r", encoding="utf-8") as f:
+        data=json.load(f)
+    while True:
+        print(50 * '-')
+        print("1. ID \n2. NAME \n3. STATUS \n4. Exit ")
+        print(50 * '-')
+        user_input = input("Введите подходящий номер: ")
+        if user_input == '4':
+            break
+        elif user_input == '1':
+            print(50 * '-')
+            id_input = int(input("Введите ID таска: "))
+            data_by_id = [item for item in data if item.get('id') == id_input]
+            print(data_by_id)
+        elif user_input == '2':
+            print(50 * '-')
+            name_input = input("Введите NAME таска: ")
+            data_by_id = [item for item in data if item.get('name') == name_input]
+            print(data_by_id)
+        elif user_input == '3':
+            print(50 * '-')
+            status_input = input("Введите STATUS таска: ").upper()
+            data_by_id = [item for item in data if item.get('status') == status_input]
+            for d in data_by_id:
+                print(d)
+
+def change_status():
+    pass
