@@ -75,10 +75,13 @@ def show_tickets():
     with open(DB_PATH, "r", encoding="utf-8") as f:
         data=json.load(f)
     
-    print("ID | NAME          | STATUS | HOURS LEFT")
+    print("ID | NAME          | STATUS      | HOURS LEFT")
     print(50 * '-')
+    now = datetime.now().replace(microsecond=0)
     for d in data:
-        print(f"{d['id']:<3}|{d['name']:<15}|{d['status']:<8}|")
+        dt = datetime.strptime(d["created_at"], "%Y-%m-%d %H:%M:%S")
+        delta = now - dt
+        print(f"{d['id']:<3}|{d['name']:<15}|{d['status']:<13}|{delta}")
         print(50 * '-')
 
 def find_ticket():

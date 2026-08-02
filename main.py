@@ -23,7 +23,7 @@ def main():
             tic_dict = handlers.create_ticket()
             handlers.add_to_json(tic_dict)
         elif user_input == 2:
-            pass
+            handlers.show_tickets()
         elif user_input == 3:
             handlers.find_ticket()
         elif user_input == 4:

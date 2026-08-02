@@ -5,7 +5,7 @@
         "description": "vpn",
         "created_at": "2026-8-2 17:1:21",
         "sla": 2,
-        "status": "OPEN"
+        "status": "IN_PROGRESS"
     },
     {
         "id": 2,
@@ -13,7 +13,7 @@
         "description": "3",
         "created_at": "2026-8-2 17:1:39",
         "sla": 4,
-        "status": "OPEN"
+        "status": "CLOSED"
     },
     {
         "id": 4,
@@ -53,6 +53,14 @@
         "description": "1",
         "created_at": "2026-8-2 17:29:20",
         "sla": 1,
+        "status": "OPEN"
+    },
+    {
+        "id": 9,
+        "name": "sdkfj",
+        "description": "123sa",
+        "created_at": "2026-8-2 20:10:18",
+        "sla": 5,
         "status": "OPEN"
     }
 ]
