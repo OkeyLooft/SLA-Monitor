@@ -6,9 +6,11 @@ def main():
 
     while True:
         utils.print_menu()
+        handlers.auto_expired()
         print()
         try:
             user_input = int(input("Выберите подходящий вариант: "))
+            print(50 * '-')
         except UnboundLocalError:
             print("Вы не ввели номера")
         except ValueError:
@@ -30,6 +32,8 @@ def main():
             handlers.change_status()
         elif user_input == 5:
             handlers.del_ticket()
+        elif user_input == 6:
+            handlers.check_sla()
 
 
 if __name__ == "__main__":

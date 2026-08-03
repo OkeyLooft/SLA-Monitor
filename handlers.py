@@ -1,8 +1,8 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 from pathlib import Path
-import uuid
-import utils
+
+
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "database.json"
@@ -32,7 +32,6 @@ def create_ticket():
             number = 0
         else:
             id_max = max(id_)
-            number = 0
             number = id_max + 1
 
 
@@ -42,7 +41,7 @@ def create_ticket():
                 "name": ticket_name,
                 "description": discription_ticket,
                 "created_at": f"{datetime_now.year}-{datetime_now.month}-{datetime_now.day} {datetime_now.hour}:{datetime_now.minute}:{datetime_now.second}",
-                "sla": time_sla,
+                "sla": str(time_sla),
                 "status": "OPEN"
             }
         for keys, values in ticket_dict.items():
@@ -83,6 +82,9 @@ def show_tickets():
         delta = now - dt
         print(f"{d['id']:<3}|{d['name']:<15}|{d['status']:<13}|{delta}")
         print(50 * '-')
+
+    user_input = input("Продолжить ? ")
+
 
 def find_ticket():
     with open(DB_PATH, "r", encoding="utf-8") as f:
@@ -174,3 +176,31 @@ def del_ticket():
                 print(d)
             pass
         
+def check_sla():
+    with open(DB_PATH, "r", encoding="utf-8") as f:
+        data=json.load(f)
+    now = datetime.now().replace(microsecond=0)
+    for d in data:
+        created_at = datetime.strptime(d["created_at"], "%Y-%m-%d %H:%M:%S")
+        sla_dur = timedelta(hours=int(d["sla"]))
+        dl = created_at + sla_dur
+        if now > dl:
+            print(f"Тикет {d['id']} просрочен")
+        else:
+            time_left = dl - now
+            print(f"У тикета {d["id"]} осталось: {time_left} ")
+    print(50 * "-")
+    user_input = input("Продолжить ? ")
+
+def auto_expired():
+    with open(DB_PATH, "r", encoding="utf-8") as f:
+        data=json.load(f)
+    now = datetime.now().replace(microsecond=0)
+    for d in data:
+        created_at = datetime.strptime(d["created_at"], "%Y-%m-%d %H:%M:%S")
+        sla_dur = timedelta(hours=int(d["sla"]))
+        dl = created_at + sla_dur
+        if now > dl:
+            d["status"] = 'EXPIRED'
+            with open(DB_PATH, 'w', encoding="utf-8") as file:
+                json.dump(data, file, indent=4)
